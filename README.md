@@ -3,5 +3,7 @@
 - Spring Rest
 - Spring Data
 - Spring Security
-- Swagger
 - MySql
+- Swagger
+- OpenAPI
+
