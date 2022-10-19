@@ -5,5 +5,6 @@
 - MySql
 - Spring Rest
 - Spring Data
+- Spring Security
 - Swagger
 - Lombok
