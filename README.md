@@ -4,5 +4,5 @@
 - MySql
 - Spring Rest
 - Spring Data
-- Spring Doc
+- Swagger
 - Lombok
