@@ -5,6 +5,7 @@ import az.spring.rest.dmo.springrestdemo.rest.model.response.EmployeeResponse;
 import az.spring.rest.dmo.springrestdemo.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,7 +17,8 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
 
-    @GetMapping
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public EmployeeResponse getAllEmployee() {
         return employeeService.getAllEmployees();
     }
@@ -35,13 +37,14 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public void insert(@RequestBody @Valid EmployeeDto employeeDto) {
         employeeService.insert(employeeDto);
     }
 
     @PutMapping("/{id}")
     public void update(
-            @RequestBody  EmployeeDto employeeDto,
+            @RequestBody EmployeeDto employeeDto,
             @PathVariable("id") long id) {
         employeeService.update(employeeDto, id);
     }
