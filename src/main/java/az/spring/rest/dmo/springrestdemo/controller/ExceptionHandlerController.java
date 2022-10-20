@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.nio.file.AccessDeniedException;
+
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
@@ -45,9 +47,21 @@ public class ExceptionHandlerController {
                 .build();
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse accessDenied(AccessDeniedException e) {
+
+        return ErrorResponse.builder()
+                .code(ErrorCodeEnum.ACCESS_DENIED.getCode())
+                .message(ErrorCodeEnum.ACCESS_DENIED.getMessage())
+                .build();
+    }
+
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleUnknown(Exception e) {
+        e.printStackTrace();
         return ErrorResponse.builder()
                 .code(ErrorCodeEnum.UNKNOWN_ERROR.getCode())
                 .message(ErrorCodeEnum.UNKNOWN_ERROR.getMessage())
