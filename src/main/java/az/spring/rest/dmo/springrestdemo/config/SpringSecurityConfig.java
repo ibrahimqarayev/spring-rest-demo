@@ -10,25 +10,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        auth
+                .inMemoryAuthentication()
                 .withUser("ibrahim")
-                .password("12345")
+                .password("{noop}12345")
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password("admin123")
+                .password("{noop}admin123")
                 .roles("ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests()
-                .antMatchers("/welcome","/")
+        http
+                .authorizeRequests()
+                .antMatchers("/welcome", "/")
                 .permitAll()
-                .antMatchers("/employees")
+                .antMatchers("/employees/**")
                 .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
@@ -37,11 +39,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout();
     }
-
-    @Bean
-    public PasswordEncoder getPassWordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
-
-
 }
