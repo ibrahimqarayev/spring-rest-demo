@@ -5,5 +5,4 @@
 - Spring Security
 - MySql
 - Swagger
-- OpenAPI
 
